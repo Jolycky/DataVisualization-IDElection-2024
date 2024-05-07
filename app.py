@@ -59,40 +59,6 @@ if option == "Data Visualisation":
     fig.update_layout(width=700, height=350, showlegend=False)
     st.plotly_chart(fig, use_container_width=True)
 
-    # Article Trends Over Time
-    st.subheader("Article Trends Over Time #1")
-
-    st.text("The chart shows the trends in the number of articles published over time.")
-
-    chart_data_all = df.groupby(['Date', 'Publication']).size().reset_index(name='Article Count')
-    fig = px.line(chart_data_all, x='Date', y='Article Count', color='Publication', color_discrete_sequence=color_scale)
-
-    # Make the line smooth
-    fig.update_traces(line_shape='spline')
-    fig.update_layout(width=700, height=350)
-    st.plotly_chart(fig, use_container_width=True)
-
-    # Pivot the data to prepare for a stacked bar chart
-    pivot_data = chart_data_all.pivot(index='Date', columns='Publication', values='Article Count').fillna(0)
-
-    # Function to count total article frequency over time
-    def count_total_article_frequency_over_time(data: pd.DataFrame) -> pd.DataFrame:
-        total_article_frequency_over_time = data.groupby('Date').size().reset_index(name='Total Articles')
-        return total_article_frequency_over_time
-
-    # Calculate total article frequency over time
-    total_article_freq_over_time_df = count_total_article_frequency_over_time(df)
-
-    # Add title and axis labels
-    fig.update_layout(xaxis_title='Date',
-                    yaxis_title='Frequency')
-
-    # Make the line smooth
-    fig.update_traces(line_shape='spline')
-
-    # Show the chart
-    st.plotly_chart(fig, use_container_width=True)
-
     # Function to count word frequency in titles
     def count_word_frequency_in_titles(data: pd.DataFrame, words: list) -> pd.DataFrame:
         word_frequency = {word: 0 for word in words}
