@@ -59,35 +59,6 @@ if option == "Data Visualisation":
     fig.update_layout(width=700, height=350, showlegend=False)
     st.plotly_chart(fig, use_container_width=True)
 
-    # Daily and Weekly Average Charts for each Publication
-    st.subheader("Average Daily and Weekly Articles")
-
-    st.text("These charts shows the daily and weekly averages of articles published.")
-
-    # Calculate daily and weekly averages for each publication
-    daily_avg_per_pub = df.groupby(['Date', 'Publication']).size().groupby('Publication').mean()
-    weekly_avg_per_pub = df.groupby([pd.Grouper(key='Date', freq='W'), 'Publication']).size().groupby('Publication').mean()
-
-    # Overall daily and weekly averages
-    overall_daily_avg = df.groupby('Date').size().mean()
-    overall_weekly_avg = df.groupby(pd.Grouper(key='Date', freq='W')).size().mean()
-
-    # Create bar chart for daily and weekly averages for each publication
-    avg_data_per_pub = pd.DataFrame({'Daily Average': daily_avg_per_pub, 'Weekly Average': weekly_avg_per_pub})
-    avg_data_per_pub.reset_index(inplace=True)
-
-    # Add overall averages to the DataFrame
-    overall_avg_data = pd.DataFrame({'Publication': ['Overall'], 
-                                    'Daily Average': [overall_daily_avg], 
-                                    'Weekly Average': [overall_weekly_avg]})
-    avg_data_per_pub = pd.concat([avg_data_per_pub, overall_avg_data])
-
-    fig = px.bar(avg_data_per_pub, x='Publication', y=['Daily Average', 'Weekly Average'], 
-                barmode='group', color_discrete_sequence=color_scale,
-                labels={'Publication': 'Publication', 'value': 'Average Articles', 'variable': 'Timeframe'})
-    fig.update_layout(width=700, height=350)
-    st.plotly_chart(fig, use_container_width=True)
-
     # Article Trends Over Time
     st.subheader("Article Trends Over Time #1")
 
@@ -111,37 +82,6 @@ if option == "Data Visualisation":
 
     # Calculate total article frequency over time
     total_article_freq_over_time_df = count_total_article_frequency_over_time(df)
-
-    # Function to count word frequency in titles over time for each candidate
-    def count_word_frequency_over_time(data: pd.DataFrame, words: list) -> pd.DataFrame:
-        word_frequency_over_time = {word: [] for word in words}
-
-        for word in words:
-            word_frequency_series = data[data['Title'].str.contains(word, case=False)]['Date'].value_counts().sort_index()
-            word_frequency_over_time[word] = word_frequency_series
-
-        return pd.DataFrame(word_frequency_over_time)
-
-    # Words to count frequency for
-    candidates_to_count = ['Anies', 'Muhaimin', 'Amin', 'Prabowo', 'Gibran', 'Ganjar', 'Mahfud']
-
-    # Count word frequency over time
-    word_freq_over_time_df = count_word_frequency_over_time(df, candidates_to_count)
-
-    # Reset index to have 'Date' as a column
-    word_freq_over_time_df = word_freq_over_time_df.reset_index().rename(columns={'index': 'Date'})
-
-    # Melt the dataframe to have 'Candidate' and 'Frequency' columns
-    word_freq_over_time_melted = word_freq_over_time_df.melt(id_vars='Date', var_name='Candidate', value_name='Frequency')
-
-    # Create a line chart for candidate occurrences over time
-    fig = px.line(word_freq_over_time_melted, x='Date', y='Frequency', color='Candidate', 
-                color_discrete_sequence=color_scale)
-
-    # Displaying the historical chart for candidate mentions in titles over time
-    st.subheader("Candidate Mentions in Titles Over Time")
-
-    st.text("This chart illustrates the frequency of each candidate's name\nmentioned in the news titles over time.")
 
     # Plotting the line chart
     fig = px.line(word_freq_over_time_melted, x='Date', y='Frequency', color='Candidate', 
