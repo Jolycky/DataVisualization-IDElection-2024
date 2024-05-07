@@ -46,7 +46,7 @@ if option == "Data Visualisation":
 
     # Owner Name
     st.header("Owner Name")
-    st.text("This application is created by [Jose Bagus Ramadhan 21082010206](https://www.linkedin.com/in/josebagus/).")
+    st.markdown("This application is created by [Jose Bagus Ramadhan](21082010206) \n(https://www.linkedin.com/in/josebagus/).")
     
     # Data Visualisation page
     st.header("Data Visualisation")
