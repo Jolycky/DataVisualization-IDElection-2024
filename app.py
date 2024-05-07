@@ -4,7 +4,7 @@ import plotly.express as px
 from nltk.tokenize import sent_tokenize
 
 # Set the page icon
-st.set_page_config(page_title="Election News Dashboard", 
+st.set_page_config(page_title="Indonesia Election 2024", 
                    page_icon=":bar_chart:",
                    initial_sidebar_state="expanded")
 
@@ -44,6 +44,10 @@ if option == "Data Visualisation":
     # Define a custom color scale for each publication
     color_scale = px.colors.qualitative.Set2
 
+    # Owner Name
+    st.header("Owner Name")
+    st.text("This application is created by [Jose Bagus Ramadhan 21082010206](https://www.linkedin.com/in/josebagus/).")
+    
     # Data Visualisation page
     st.header("Data Visualisation")
 
