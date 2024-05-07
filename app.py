@@ -83,10 +83,6 @@ if option == "Data Visualisation":
     # Calculate total article frequency over time
     total_article_freq_over_time_df = count_total_article_frequency_over_time(df)
 
-    # Plotting the line chart
-    fig = px.line(word_freq_over_time_melted, x='Date', y='Frequency', color='Candidate', 
-                color_discrete_sequence=color_scale)
-
     # Add title and axis labels
     fig.update_layout(xaxis_title='Date',
                     yaxis_title='Frequency')
