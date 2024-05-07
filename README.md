@@ -24,25 +24,10 @@
 </p>
 <hr>
 
-## Quick Links
-
-> - [Overview](#overview)
-> - [Features](#features)
-> - [Repository Structure](#repository-structure)
-> - [Modules](#modules)
-> - [Getting Started](#getting-started)
->   - [Installation](#installation)
->   - [Running the Project](#running-the-project)
->   - [Tests](#tests)
-> - [Project Roadmap](#project-roadmap)
-> - [Contributing](#contributing)
-> - [License](#license)
-> - [Acknowledgments](#acknowledgments)
-
 ---
 
 ## Overview
-
+https://pemilu2024-dashboard.streamlit.app/
 The project aims to visualize election nominees in Indonesia for the year 2024.
 
 ---
