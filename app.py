@@ -36,7 +36,7 @@ total_width = sum(column_widths.values())
 st.title("Indonesia Election 2024")
 
 # Sidebar menu
-option = st.sidebar.selectbox("Select a feature", ["Data Visualisation", "Search News", "Key Word in Context"])
+option = st.sidebar.selectbox("Select a feature", ["Data Visualisation", "Search News"])
 
 if option == "Data Visualisation":
     import plotly.express as px
@@ -111,20 +111,6 @@ if option == "Data Visualisation":
 
     # Calculate total article frequency over time
     total_article_freq_over_time_df = count_total_article_frequency_over_time(df)
-
-    # Display the line chart for total article trends over time
-    st.subheader("Article Trends Over Time #2")
-
-    st.text("This chart illustrates the total number of articles published over time\nacross all publications.")
-
-    # Plotting the line chart for total article trends over time
-    fig = px.line(total_article_freq_over_time_df, x='Date', y='Total Articles', 
-                labels={'Date': 'Date', 'Total Articles': 'Total Articles'})
-
-    # Make the line smooth
-    fig.update_traces(line_shape='spline')
-    fig.update_layout(width=700, height=350)
-    st.plotly_chart(fig, use_container_width=True)
 
     # Function to count word frequency in titles over time for each candidate
     def count_word_frequency_over_time(data: pd.DataFrame, words: list) -> pd.DataFrame:
@@ -217,28 +203,6 @@ if option == "Data Visualisation":
     # Words to count frequency for
     words_to_count = ['Anies', 'Muhaimin', 'Amin', 'Prabowo', 'Gibran', 'Ganjar', 'Mahfud']
 
-    # Display the bar chart for candidate mentions in titles per publication
-    st.subheader("Candidate Mentions in Titles per Publication")
-
-    st.text("This chart illustrates the frequency of each candidate's name\nmentioned in the news titles, categorized by publication.")
-
-    word_freq_per_pub_df = count_word_frequency_in_titles_per_publication(df, words_to_count)
-
-    # Melt the dataframe to have 'Publication', 'Candidate', and 'Frequency' columns
-    word_freq_per_pub_melted = word_freq_per_pub_df.reset_index().melt(id_vars='index', var_name='Candidate', value_name='Frequency')
-    word_freq_per_pub_melted.rename(columns={'index': 'Publication'}, inplace=True)
-
-    # Create a horizontal stacked bar chart for candidate mentions in titles per publication
-    fig = px.bar(word_freq_per_pub_melted, x='Candidate', y='Frequency', color='Publication',
-                color_discrete_sequence=color_scale)
-
-    # Add title and axis labels
-    fig.update_layout(xaxis_title="Frequency",
-                    yaxis_title="Candidate")
-
-    # Show the chart
-    st.plotly_chart(fig, use_container_width=True)
-
 elif option == "Search News":
 
     # Search function
@@ -254,41 +218,3 @@ elif option == "Search News":
         # Display the search results
         st.write(f"### Search Results for \"{search_query}\"")
         st.dataframe(filtered_df[['Date', 'Title', 'Text', 'Publication']], width=total_width, height=None, use_container_width=True)
-
-elif option == "Key Word in Context":
-    # Concordance / Key Word in Context function
-    def display_concordance(data: pd.DataFrame, col: str, keyword: str, window_size: int = 7) -> pd.DataFrame:
-        concordance_lines = []
-
-        for index, row in data.iterrows():
-            text = row[col]
-            words = text.split()
-            
-            for i, word in enumerate(words):
-                if word == keyword:
-                    start = max(0, i - window_size)
-                    end = min(len(words), i + window_size + 1)
-                    left_context = ' '.join(words[start:i])
-                    keyword_in_context = ' '.join(words[i:i+1])
-                    right_context = ' '.join(words[i+1:end])
-                    
-                    concordance_lines.append({
-                        "Left context": left_context,
-                        "Key Word": keyword_in_context,
-                        "Right context": right_context,
-                        "Publication": row["Publication"],
-                        "Title": row["Title"]
-
-                    })
-        return pd.DataFrame(concordance_lines)
-
-    # Concordance page
-    st.header("Key Word in Context")
-    st.text("Explore occurrences of a keyword within the data along with contextual snippets.")
-    selected_column = st.selectbox("To use this feature, please choose either the 'Text' or 'Title' column", df.columns)
-    keyword = st.text_input("Enter a keyword (only a single word)")
-
-    if keyword:
-        concordance_df = display_concordance(df, selected_column, keyword)
-        st.write(f"### Key Word in Context for \"{keyword}\" in {selected_column}")
-        st.dataframe(concordance_df, width=total_width, height=None, use_container_width=True)
