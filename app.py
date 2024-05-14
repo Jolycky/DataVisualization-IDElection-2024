@@ -3,15 +3,17 @@ import pandas as pd
 import plotly.express as px
 from nltk.tokenize import sent_tokenize
 import numpy as np
-import os
 
 conn = st.connection("mydb", type="sql", autocommit=True)
 
 df = conn.query('SELECT EnglishPromotionName, StartDate, EndDate, MaxQty from dimpromotion limit 10;', ttl=600)
 
+
+chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
+
+st.bar_chart(chart_data)
 st.table(df)
-for row in df.itertuples():
-     st.write(f"{row.EnglishPromotionName} , {row.MaxQty} ")
+
  
 # Set the page icon
 st.set_page_config(page_title="Indonesia Election 2024", 
