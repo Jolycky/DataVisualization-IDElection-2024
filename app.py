@@ -12,7 +12,8 @@ df = conn.query('SELECT EnglishPromotionName, StartDate, EndDate, MaxQty from di
 st.table(df)
 for row in df.itertuples():
      st.write(f"{row.EnglishPromotionName} , {row.MaxQty} ")
- Set the page icon
+ 
+# Set the page icon
 st.set_page_config(page_title="Indonesia Election 2024", 
                    page_icon=":bar_chart:",
                    initial_sidebar_state="expanded")
