@@ -1,5 +1,13 @@
 streamlit
-pandas
-plotly
-requests
-nltk
+pandas==2.2.1
+plotly==5.22.0
+prophet
+matplotlib
+yfinance
+pandas-datareader
+numpy
+datetime
+openpyxl
+pymysql
+SQLAlchemy
+scipy
