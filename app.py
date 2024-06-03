@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from nltk.tokenize import sent_tokenize
+
 import numpy as np
 
 # Set the page icon
