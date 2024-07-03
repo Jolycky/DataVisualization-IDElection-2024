@@ -1,6 +1,5 @@
-<p align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" width="100" />
-</p>
+![image](https://github.com/Jolycky/DataVisualization-IDElection-2024/assets/126927999/66f81046-c358-4b6f-9850-33716d2c7b03)
+
 <p align="center">
     <h1 align="center">INDONESIA ELECTION 2024 VISUALIZATION</h1>
 </p>
